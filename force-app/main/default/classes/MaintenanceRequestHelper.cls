@@ -7,7 +7,6 @@ public with sharing class MaintenanceRequestHelper {
     public static void updateWorkOrders() {
         Map<Id, Case> mapRepairRoutineCases = getMapOldCaseToNew(Trigger.new);
         List<Work_Part__c> lsWorkParts = getWorkPartForCases(mapRepairRoutineCases.keySet());
-        System.debug('lsWorkParts ----> ' + lsWorkParts);
         Map<Id, List<Decimal>> mapCaseIdToMaintenanceCycle = getMapCaseIdToMaintenanceCycle(lsWorkParts);
         if (mapCaseIdToMaintenanceCycle.size() > 0) {     
             for (Id caseId : mapRepairRoutineCases.keySet()) {
@@ -24,12 +23,10 @@ public with sharing class MaintenanceRequestHelper {
     private static Map<Id, Case> getMapOldCaseToNew(List<Case> listCs){
         Map<Id, Case> newCases = new Map<Id, Case>();
         for (Case theCase : listCs) {
-            System.debug('theCase ---> ' + theCase);
             if (theCase.Status == MaintenanceRequestService.CASE_STATUS_CLOSED && isRepairOrRoutine(theCase)) {
                 newCases.put(theCase.Id, generateRepairOrRoutineCase(theCase));
             }
         }
-        System.debug('newCases ----> ' +  newCases);
         return newCases;
     }
 
@@ -59,7 +56,6 @@ public with sharing class MaintenanceRequestHelper {
                 mapCaseIdtoMaintenanceCycle.put(caseId, dueDays);
             }
         }
-        System.debug('mapCaseIdtoMaintenanceCycle ---> ' + mapCaseIdtoMaintenanceCycle);
         return mapCaseIdtoMaintenanceCycle; 
     }
 
