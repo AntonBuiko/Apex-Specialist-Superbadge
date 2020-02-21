@@ -40,7 +40,8 @@ public with sharing class WarehouseCalloutService {
     private static Map<String,EquipmentWrapper> getMapSkuToEquipment(HttpResponse response){
         Map<String,EquipmentWrapper> mapSkuToEquipment = new Map<String,EquipmentWrapper>();
         List<EquipmentWrapper> results =  (List<EquipmentWrapper>)JSON.deserializeStrict(response.getBody().replaceAll('_id', 'id'),                
-            List<EquipmentWrapper>.class); 
+            List<EquipmentWrapper>.class);
+        System.debug(results);
         for (EquipmentWrapper equipment : results) {
             mapSkuToEquipment.put(equipment.sku, equipment);
         }
